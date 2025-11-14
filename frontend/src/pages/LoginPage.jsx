@@ -10,15 +10,14 @@ import { useForm } from "../hooks/useForm.js";
 export const LoginPage = (onLoginSuccess) => {
   const {values, handleChange, handleReset} = useForm({
     username: "",
-    password: "",
+    password: "", 
   });
 
-  const [loading, setLoading] = useState(false);
+  const [loading,  setLoading] = useState(false);
   
   const handleSubmit = async () => {
     e.preventDefault();
     setLoading(true);
-  }
 
   try {
     const res = await fetch ("http://localhost:3000/api/login", {
@@ -43,8 +42,7 @@ export const LoginPage = (onLoginSuccess) => {
   } finally {
     setLoading(false);
   };
-
-
+};
 
 
   return (
