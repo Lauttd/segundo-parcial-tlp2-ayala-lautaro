@@ -162,9 +162,9 @@ import { useState } from "react";
         </form>
 
         <p className="text-center text-sm text-gray-600 mt-4">
-          ¿Ya tienes cuenta?{" "}
+          ¿Ya tienes cuenta?{username}
           <Link
-            to="/login"
+            to="/login" 
             className="text-green-600 hover:text-green-800 font-medium"
           >
             Inicia sesión aquí
@@ -175,4 +175,5 @@ import { useState } from "react";
   );
 };
 }
+
 

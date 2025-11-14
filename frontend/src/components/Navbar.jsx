@@ -1,24 +1,53 @@
-  // TODO: Obtener datos del usuario desde /api/profile
-  // TODO: Implementar función handleLogout con POST a /api/logout usando credentials: 'include'
-  // TODO: Después del logout exitoso, redireccionar a /login
-  // TODO: Manejar errores apropiadamente
-
+import { useEffect } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export const Navbar = () => {
-      const handleLogout = async () => {
-      try {
-        await fetch("http://localhost:3000/api/logout", {
-          method: "POST", 
-          Credential: "include",
-        });
-      } catch (error) {
-        console.error("Error al cerrar sesion", error)
-      } finally {
-        onLogout();
-      }
-    }
+  const navigate = useNavigate();
 
-  const userName = "Usuario"; // TODO: Reemplazar con el nombre real del usuario obtenido de /api/profile
+  const [user, setUser] = useState({
+    id: "777",
+    name: "Hai",
+    lastname: "Weiss",
+  });
+
+  const getProfile = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/profile", {
+        credentials: "include",
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data.user);
+      }
+    } catch (e) {
+      console.log("Error es:", e.message);
+    }
+  };
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:3000/api/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (res.ok) {
+        alert("Cerraste sesion con exito, seras redirigido");
+        navigate("/login");
+      }
+    } catch (e) {
+      console.log("error", e.message);
+    }
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  const userName = user.name; // TODO: Reemplazar con el nombre real del usuario obtenido de /api/profile
 
   return (
     <nav className="bg-gray-900 text-white h-16 left-0 right-0 shadow-lg sticky top-0 z-50">
@@ -32,9 +61,7 @@ export const Navbar = () => {
           </span>
 
           <button
-            onClick={() => {
-              handleLogout
-            }}
+            onClick={handleLogout}
             className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded transition-colors font-medium"
           >
             Cerrar Sesión
@@ -43,4 +70,4 @@ export const Navbar = () => {
       </div>
     </nav>
   );
- };
+};

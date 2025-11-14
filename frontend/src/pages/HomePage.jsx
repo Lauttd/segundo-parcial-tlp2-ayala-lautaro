@@ -1,50 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Loading } from "../components/Loading";
 
 export const HomePage = () => {
+  const [loading, setLoading] = useState(true);
+  const [superheroes, setSuperheroes] = useState([]);
 
-  const [Super, setSuperheroes] = useState([]);
-  const 
+  const obtenerSuperheroes = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/superheroes", {
+        credentials: "include",
+      });
 
+      if (res.ok) {
+        const data = await res.json();
+        setSuperheroes(data.data);
+      }
+    } catch (e) {
+      console.log("Error es:", e.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // Datos de ejemplo para las cards
-  const superheroes = [
-    {
-      id: 1,
-      superhero: "Superman",
-      image:
-        "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/lg/644-superman.jpg",
-    },
-    {
-      id: 2,
-      superhero: "Batman",
-      image:
-        "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/lg/70-batman.jpg",
-    },
-    {
-      id: 3,
-      superhero: "Wonder Woman",
-      image:
-        "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/lg/720-wonder-woman.jpg",
-    },
-    {
-      id: 4,
-      superhero: "Spider-Man",
-      image:
-        "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/lg/620-spider-man.jpg",
-    },
-    {
-      id: 5,
-      superhero: "Iron Man",
-      image:
-        "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/lg/346-iron-man.jpg",
-    },
-    {
-      id: 6,
-      superhero: "Captain America",
-      image:
-        "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/lg/149-captain-america.jpg",
-    },
-  ];
+  useEffect(() => {
+    obtenerSuperheroes();
+  }, []);
 
   return (
     <div className="container mx-auto px-4 pb-8">
@@ -54,35 +34,41 @@ export const HomePage = () => {
 
       <div className="flex justify-center mb-8">
         <button
-          onClick={() => {
-            // TODO: Implementar función para recargar superhéroes
-          }}
+          onClick={getSuperheroes}
           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded transition-colors"
         >
           Recargar
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {superheroes.map((hero) => (
-          <div
-            key={hero.id}
-            className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer"
-          >
-            <img
-              src={hero.image}
-              alt={hero.superhero}
-              className="h-64 object-cover w-full"
-            />
+      {loading && <Loading />}
 
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">
-                {hero.superhero}
-              </h3>
+      {!loading && superheroes.length === 0 ? (
+        <p className="text-center text-zinc-400 pt-10">
+          No hay superheroes, la ciudad esta en peligro
+        </p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {superheroes.map((hero) => (
+            <div
+              key={hero.id}
+              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer"
+            >
+              <img
+                src={hero.image}
+                alt={hero.superhero}
+                className="h-64 object-cover w-full"
+              />
+
+              <div className="p-4">
+                <h3 className="text-xl font-semibold text-gray-800">
+                  {hero.superhero}
+                </h3>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -69,6 +69,7 @@ export const LoginPage = ({onLoginSuccess}) => {
               type="text"
               id="username"
               name="username"
+              onChange={handleChange}
               placeholder="Ingresa tu usuario"
               className="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
@@ -86,6 +87,7 @@ export const LoginPage = ({onLoginSuccess}) => {
               type="password"
               id="password"
               name="password"
+              onChange={handleChange}
               placeholder="Ingresa tu contraseña"
               className="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
