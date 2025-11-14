@@ -1,12 +1,50 @@
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
+import { useForm } from "../hooks/useForm";
+import { useState } from "react";
 
-export const RegisterPage = () => {
-  // TODO: Integrar lógica de registro aquí
-  // TODO: Implementar useForm para el manejo del formulario
-  // TODO: Implementar función handleSubmit
+export const RegisterPage = (onLoginSuccess) => {
+  const { values, handleChange, handleReset } = useForm({
+    username: "",
+    email: "", 
+    password: "",
+    name: "",
+    lastname: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+  try {
+    const res = await fetch("http://localhost:3000/api/register", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      Credential: "include",
+      body: JSON.stringify(payload),
+    })
+
+    const data = await res.json();
+
+    if(res.ok) {
+      onLoginSuccess();
+    } else {
+      alert(data.message || "Error al registrarse");
+      handleReset();
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Error por parte del servidor")
+    handleReset();
+  } finally {
+    setLoading(false);
+  }
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 py-8">
+      {loading && <loading/>}
       <div className="max-w-lg w-full bg-white rounded-lg shadow-xl p-8">
         <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
           Crear Cuenta
@@ -19,7 +57,7 @@ export const RegisterPage = () => {
           </p>
         </div>
 
-        <form onSubmit={(event) => {}}>
+        <form onSubmit={(event) => {handleSubmit}}>
           <div className="mb-4">
             <label
               htmlFor="username"
@@ -31,6 +69,8 @@ export const RegisterPage = () => {
               type="text"
               id="username"
               name="username"
+              value={values.username}
+              onChange={handleChange}
               placeholder="Elige un nombre de usuario"
               className="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
               required
@@ -48,6 +88,8 @@ export const RegisterPage = () => {
               type="email"
               id="email"
               name="email"
+              value={values.email}
+              onChange={handleChange}
               placeholder="tu@email.com"
               className="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
               required
@@ -65,6 +107,8 @@ export const RegisterPage = () => {
               type="password"
               id="password"
               name="password"
+              value={values.password}
+              onChange={handleChange}
               placeholder="Crea una contraseña segura"
               className="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
               required
@@ -82,6 +126,8 @@ export const RegisterPage = () => {
               type="text"
               id="name"
               name="name"
+              value={values.name}
+              onChange={handleChange}
               placeholder="Tu nombre"
               className="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
               required
@@ -99,6 +145,8 @@ export const RegisterPage = () => {
               type="text"
               id="lastname"
               name="lastname"
+              value={values.lastname}
+              onChange={handleChange}
               placeholder="Tu apellido"
               className="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
               required
@@ -126,3 +174,4 @@ export const RegisterPage = () => {
     </div>
   );
 };
+}

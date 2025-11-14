@@ -1,10 +1,6 @@
-import { Link, useSearchParams } from "react-router";
+import { Link } from "react-router";
 import { useState } from "react";
 import { useForm } from "../hooks/useForm.js";
-
-  // TODO: Integrar lógica de autenticación aquí
-  // TODO: Implementar useForm para el manejo del formulario
-  // TODO: Implementar función handleSubmit
 
 
 export const LoginPage = (onLoginSuccess) => {
@@ -47,6 +43,7 @@ export const LoginPage = (onLoginSuccess) => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 py-8">
+      {loading && <loading/>}
       <div className="max-w-md w-full bg-white rounded-lg shadow-xl p-8">
         {/* Título */}
         <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
@@ -60,7 +57,7 @@ export const LoginPage = (onLoginSuccess) => {
           </p>
         </div>
 
-        <form onSubmit={(event) => {}}>
+        <form onSubmit={(event) => {handleSubmit}}>
           <div className="mb-4">
             <label
               htmlFor="username"
@@ -72,6 +69,8 @@ export const LoginPage = (onLoginSuccess) => {
               type="text"
               id="username"
               name="username"
+              value={values.username}
+              onChange={handleChange}
               placeholder="Ingresa tu usuario"
               className="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
@@ -89,6 +88,8 @@ export const LoginPage = (onLoginSuccess) => {
               type="password"
               id="password"
               name="password"
+              value={values.password}
+              onChange={handleChange}
               placeholder="Ingresa tu contraseña"
               className="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required

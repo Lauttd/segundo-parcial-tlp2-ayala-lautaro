@@ -1,8 +1,22 @@
-export const HomePage = () => {
-  // TODO: Integrar lógica para obtener superhéroes desde la API
-  // TODO: Implementar useState para almacenar la lista de superhéroes
-  // TODO: Implementar función para recargar superhéroes
+import { useState } from "react";
 
+
+export const HomePage = () => {
+ const [profile, setProfile] = useState(null);
+ cont [superheroes, setSuperheroes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [reLoading, setReLoading] = useState(false);
+
+
+  const loadHomeData = async () => {
+    try {
+      const profilePromise = fetch("http://localhost:3000/api/profile", {
+        credentials: "include",
+      });
+    } catch (error) {
+      
+    }
+  }
   // Datos de ejemplo para las cards
   const superheroes = [
     {
