@@ -2,7 +2,7 @@ import { Link, useSearchParams } from "react-router";
 import { useForm } from "../hooks/useForm";
 import { useState } from "react";
 
-export const RegisterPage = (onLoginSuccess) => {
+ export const RegisterPage = (onLoginSuccess) => {
   const { values, handleChange, handleReset } = useForm({
     username: "",
     email: "", 
@@ -175,3 +175,4 @@ export const RegisterPage = (onLoginSuccess) => {
   );
 };
 }
+

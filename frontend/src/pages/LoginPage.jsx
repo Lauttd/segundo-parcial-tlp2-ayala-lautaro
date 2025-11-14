@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm } from "../hooks/useForm.js";
 
 
-export const LoginPage = (onLoginSuccess) => {
+export const LoginPage = ({onLoginSuccess}) => {
   const {values, handleChange, handleReset} = useForm({
     username: "",
     password: "", 
@@ -11,7 +11,7 @@ export const LoginPage = (onLoginSuccess) => {
 
   const [loading,  setLoading] = useState(false);
   
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -69,8 +69,6 @@ export const LoginPage = (onLoginSuccess) => {
               type="text"
               id="username"
               name="username"
-              value={values.username}
-              onChange={handleChange}
               placeholder="Ingresa tu usuario"
               className="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
@@ -88,8 +86,6 @@ export const LoginPage = (onLoginSuccess) => {
               type="password"
               id="password"
               name="password"
-              value={values.password}
-              onChange={handleChange}
               placeholder="Ingresa tu contraseña"
               className="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
@@ -117,3 +113,4 @@ export const LoginPage = (onLoginSuccess) => {
     </div>
   );
 };
+

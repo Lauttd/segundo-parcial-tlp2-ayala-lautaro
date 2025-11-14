@@ -1,22 +1,11 @@
 import { useState } from "react";
 
-
 export const HomePage = () => {
- const [profile, setProfile] = useState(null);
- cont [superheroes, setSuperheroes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [reLoading, setReLoading] = useState(false);
+
+  const [Super, setSuperheroes] = useState([]);
+  const 
 
 
-  const loadHomeData = async () => {
-    try {
-      const profilePromise = fetch("http://localhost:3000/api/profile", {
-        credentials: "include",
-      });
-    } catch (error) {
-      
-    }
-  }
   // Datos de ejemplo para las cards
   const superheroes = [
     {
